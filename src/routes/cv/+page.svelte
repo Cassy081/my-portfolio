@@ -1,4 +1,5 @@
 <script type="module" src="/global.js"></script>
+
 <h1>Resume</h1>
 <svelte:head>
   <title>Resume</title>

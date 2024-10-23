@@ -12,24 +12,22 @@ body {
 
 /* Navigation Display */
 
-nav{
+nav {
   display: flex;
   margin-bottom: 0.5em;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: oklch(80% 3% 200);
-  --border-color: oklch(50% 10% 200 / 40%);
   border-bottom-color: var(--border-color);
-  }
+  --border-color: oklch(50% 10% 200 / 40%);
+}
 
-
-nav a{
+nav a {
   flex: 1;
   text-decoration: none;
-  color:inherit;
+  color: inherit;
   text-align: center;
   padding: 0.5em;
-  margin-bottom: 0.5
+  margin-bottom: 0.5em; /* Make sure this has 'em' unit */
 }
 
 .current {
@@ -45,6 +43,13 @@ nav a:hover {
   border-bottom: 0.4em solid var(--color-accent);
   background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
 }
+
+/* Ensuring hover effect for the current link remains the same */
+nav a.current:hover {
+  border-bottom: 0.4em solid var(--color-accent); /* Keep hover border color */
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%); /* Maintain hover background */
+}
+
 
 /* Contact Form Display */
 
@@ -65,33 +70,6 @@ label{
 input, textarea, button, select{
   font-family: inherit;
 }
-
-/* Project Page Dispaly */
-.projects{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15em,1fr));
-  gap: 1em;
-}
-
-.projects article{
-  grid-template-rows: subgrid;
-  grid-row: span 3;
-}
-
-.projects h2{
-  margin: 0;
-}
-
-.projects h1{
-  font-size: 400%;
-}
-
-.projects h1, h2, h3, h4, h5, h6 {
-  line-height: 1.1; 
-  text-wrap: balance; 
-}
-
-/* Resume Display */
 
 section {
   background: rgb(237, 226, 232);
