@@ -1,4 +1,4 @@
-YOLO <slot />
+<slot />
 
 <script>
     import { onMount } from 'svelte';

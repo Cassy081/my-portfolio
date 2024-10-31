@@ -1,62 +1,74 @@
 [
     {
-        "title": "hi.",
+        "title": "Credit Card Fraud Detection",
+        "year": "2021",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat alias optio repellat corrupti vero, et impedit maiores atque quibusdam cumque, ea provident! Odit accusantium, quidem ut fugit similique saepe! Architecto."
+        "description": "Improved the performance of machine learning models on a dataset of 284,807 transactions by implementing advanced sampling techniques. Achieved an impressive 93% accuracy using Decision Tree, AdaBoost, and Random Forest classifiers. Conducted thorough error analysis through confusion matrices and cross-validation to ensure high data quality and model reliability."
     },
     {
-        "title": "Incidunt a iste debitis.",
+        "title": "Insurance Cost Analysis",
+        "year": "2022",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Ducimus, dolorum non nihil fugiat sapiente labore quae. Quos, explicabo asperiores. Vero libero consequuntur architecto enim. Eligendi quae delectus similique laboriosam, libero error fugiat repudiandae voluptatibus aperiam et rem vitae?"
+        "description": "Optimized machine learning model performance by transforming and encoding categorical data from a dataset of 1,338 patient records. Developed a Linear Regression model that accurately estimated individual medical costs, achieving a low prediction error of just 0.18."
     },
     {
-        "title": "Aliquid error aspernatur assumenda?",
+        "title": "Recruitment Plan Project",
+        "year": "2022",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Soluta eveniet ullam perspiciatis accusantium impedit velit. Reiciendis animi ducimus asperiores numquam, atque laboriosam molestiae. Repellat nemo ratione est optio ullam, amet quae delectus magni placeat sunt unde, totam esse."
+        "description": "Analyzing the organization’s employee and client data and visualizing their location in the US. The purpose of implementing this project is to identify the gaps between volunteer mentors and clients to generate insights for future recruitment plans."
     },
     {
-        "title": "Atque temporibus deleniti commodi.",
+        "title": "Service Data Optimization Project",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Beatae ipsa commodi iusto veritatis distinctio nihil sapiente magni nemo natus, quae facilis ex impedit obcaecati praesentium quas consequatur et dolorem veniam? Distinctio perspiciatis fugit corrupti, maxime voluptatem quaerat voluptatum."
+        "description": "Analyzing service data, identifying gaps, and generating actionable recommendations."
     },
     {
-        "title": "Excepturi quasi deserunt cum.",
+        "title": "Hotel Booking Analysis",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Officia nobis incidunt laborum labore, temporibus voluptatem non sequi, dolorum amet sunt ut eius, voluptates natus dolore facere quia et eaque deserunt? Debitis eveniet possimus natus, maxime placeat eos magnam!"
+        "description": "Uncovering business trends and customer buhavior through an analysis of over 100,000 hotel biiking data points."
     },
     {
-        "title": "Ea laudantium ratione nam.",
+        "title": "Google Data Analytcs Certificate Program Project",
+        "year": "2021",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Corporis assumenda fugiat quae officiis dolorum, ullam molestiae aut excepturi illo at nihil quasi laborum facilis similique? Repellendus, praesentium? Accusantium et quod corrupti, doloremque consequatur perspiciatis tempore saepe provident vitae."
+        "description": "A bike-share company wants to maximize their membership."
     },
     {
-        "title": "Facere et inventore nulla.",
+        "title": "E-commerce Data Analysis Project - SQL",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Laboriosam, sequi eius soluta est odit itaque harum fugiat beatae sapiente vel sint dolores quia explicabo ducimus? Ea reiciendis laudantium, repellat voluptatem eius quibusdam? Quos esse facilis omnis quisquam optio."
+        "description": "Examine data from an online sotre, and to determine the top-selling products, how each product category is performing interns of sales, and what about high-velue clients."
     },
     {
-        "title": "Explicabo culpa illum perferendis.",
+        "title": "Customer Segmentation for a Telecommunication Company - SQL",
+        "year": "2021",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Officiis quas itaque blanditiis, fugit obcaecati sapiente nihil facilis temporibus nisi id dolores quia accusantium velit ut minus quam magni cum? At ipsum ab laudantium laboriosam. Illo quo ipsa vero."
+        "description": "Analyzing data from a subscription-based service that offer various plans to customers. The objective is to gain insights into customer payment behavior and identify patterns."
     },
     {
-        "title": "Fuga rerum soluta reprehenderit.",
+        "title": "Sales Data Analysis - SQL",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Cum, qui rerum. Adipisci sapiente atque, ex voluptate dolore consequuntur ipsum sint omnis harum molestiae facilis excepturi cum odit id vitae, iure assumenda minima aliquam dolorum. Repellat sint optio placeat?"
+        "description": "Sales data analysis for an E-commerce platform. Objective is to gain insights into customer purchasing behavior, product performance, and sales trends."
     },
     {
-        "title": "Architecto veniam iure molestias!",
+        "title": "Shop Store Analysis - SQL",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Debitis blanditiis dolores dolorum molestias obcaecati doloribus beatae rerum ad incidunt possimus dolor ratione ut quia, eveniet, repellat, amet maiores perspiciatis totam sit nemo? Error exercitationem eius illum tempora corrupti!"
+        "description": "Utilizing products and sales data, to gain insights into sales performance, ranking products, and analyze revenue differences between sales and identify top-perfoming regions."
     },
     {
-        "title": "Omnis facere sapiente fuga.",
+        "title": "Employee Management System Analysis - SQL",
+        "year": "2021",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Reprehenderit eveniet consectetur rerum nostrum aut explicabo dolore odit vel! Nam corporis aperiam expedita impedit, reprehenderit quia hic illo temporibus aliquid illum quisquam architecto ipsa dolorum, similique, necessitatibus voluptate ut?"
+        "description": "Analyze employee's data and gain the insights of how the composition and distribution of the whole employees? What gaps can we capture to improve in the future?"
     },
     {
-        "title": "Qui officia quidem voluptatem.",
+        "title": "World Happiness Score Analysis",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Illum quibusdam ex exercitationem impedit placeat, quas veritatis atque aliquid eaque doloremque nostrum voluptates magnam architecto! Laboriosam itaque quo rem facere delectus sequi ratione id quaerat reiciendis! Fugiat, vero nulla."
+        "description": "Analyzing happiness score in each region and examine the correlation, reginoal analysis, and comparative analysis for the relationship between happiness score and relevent factors."
     }
 ]
