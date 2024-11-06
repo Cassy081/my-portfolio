@@ -1,13 +1,11 @@
 <script>
   export let data;
   export let hLevel = 2; // Default heading level is 2
-  import Pie from '$lib/Pie.svelte';
 </script>
 
 
 <div class="project-container">
 
-  <Pie />
   <article>
     <svelte:element this={'h' + hLevel}>{data.title}</svelte:element>
     <p>{data.description}</p>
