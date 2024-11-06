@@ -1,15 +1,19 @@
 <script>
   export let data;
   export let hLevel = 2; // Default heading level is 2
+  import Pie from '$lib/Pie.svelte';
 </script>
+
 
 <div class="project-container">
 
-<article>
-  <svelte:element this={'h' + hLevel}>{data.title}</svelte:element>
-  <p>{data.description}</p>
-</article>
-</div>
+  <Pie />
+  <article>
+    <svelte:element this={'h' + hLevel}>{data.title}</svelte:element>
+    <p>{data.description}</p>
+    <p class="year-display"><span>{data.year}</span></p>
+  </article>
+  </div>
 
 <style>
 .project-container {
@@ -30,5 +34,13 @@ article {
 
 article:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Example hover effect */
+}
+
+.year-display span {
+    font-family: Baskerville;
+    font-variant-numeric: oldstyle-nums;
+    background-color: #f0f0f0; /* Subtle background for emphasis */
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 </style>
