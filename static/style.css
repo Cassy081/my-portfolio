@@ -80,6 +80,13 @@ section {
 }
 
 
+@media (prefers-color-scheme: dark) {
+  section {
+    background: #000; /* Black background for dark theme */
+    color: white; /* White text for contrast in dark theme */
+  }
+}
+
 html {
   color-scheme: light dark; 
   background-color: Canvas; 

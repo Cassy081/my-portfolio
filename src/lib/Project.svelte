@@ -37,7 +37,6 @@ article:hover {
 .year-display span {
     font-family: Baskerville;
     font-variant-numeric: oldstyle-nums;
-    background-color: #f0f0f0; /* Subtle background for emphasis */
     padding: 4px 8px;
     border-radius: 4px;
 }
