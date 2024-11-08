@@ -1,13 +1,14 @@
 <script>
-import projects from '$lib/projects.json';
-import Project from '$lib/Project.svelte';
-import Pie from '$lib/Pie.svelte';
-import * as d3 from 'd3';
+  import projects from '$lib/projects.json';
+  import Project from '$lib/Project.svelte';
+  import Pie from '$lib/Pie.svelte';
+  import * as d3 from 'd3';
 
-let query = '';
+  let query = '';
+  let selectedYearIndex = -1;
 
-// Reactive filteredProjects
-let filteredProjects;
+  // Reactive filteredProjects based on search query
+  let filteredProjects;
   $: filteredProjects = projects.filter((project) => {
     if (query) {
       // Case-insensitive filtering across all project properties
@@ -17,23 +18,33 @@ let filteredProjects;
     return true;
   });
 
-// Create pieData based on filteredProjects
-let pieData;
-$: {
-  let rolledData = d3.rollups(
-    filteredProjects,
-    (v) => v.length,
-    (d) => d.year // Assuming each project has a year property
-  );
-  pieData = rolledData.map(([year, count]) => {
-    return { value: count, label: year };
-  });
+  // Create pieData based on filteredProjects
+  let pieData;
+  $: {
+    let rolledData = d3.rollups(
+      filteredProjects,
+      (v) => v.length,
+      (d) => d.year // Assuming each project has a year property
+    );
+    pieData = rolledData.map(([year, count]) => {
+      return { value: count, label: year };
+    });
   }
+
+  // Define selectedYear based on selectedYearIndex
+  let selectedYear;
+  $: selectedYear = selectedYearIndex > -1 ? pieData[selectedYearIndex].label : null;
+
+  // Define filteredByYear to hold projects filtered by the selected year
+  let filteredByYear;
+  $: filteredByYear = selectedYear
+    ? filteredProjects.filter((project) => project.year === selectedYear)
+    : filteredProjects; // If no year is selected, use all filtered projects
 </script>
 
-<h1>{filteredProjects.length} Projects</h1>
-<Pie data={pieData} />
+<h1>{filteredByYear.length} Projects</h1>
 
+<Pie data={pieData} bind:selectedIndex={selectedYearIndex} />
 
 <div class="search-container">
   <input
@@ -46,15 +57,13 @@ $: {
 </div>
 
 <svelte:head>
-<title>My Projects</title>
+  <title>My Projects</title>
 </svelte:head>
 
-
 <!-- Project List -->
-{#each filteredProjects as project}
+{#each filteredByYear as project}
   <Project data={project} />
 {/each}
-
 
 <style>
   /* Search Bar Styles */
@@ -77,8 +86,8 @@ $: {
   }
 
   .search-bar:focus {
-    border-color: #3f51b5; /* Focused blue color */
-    box-shadow: 0 0 5px rgba(63, 81, 181, 0.5); /* Light shadow on focus */
+    border-color: #3f51b5;
+    box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
   }
 
   .search-bar::placeholder {
@@ -95,7 +104,7 @@ $: {
     }
 
     .search-bar:focus {
-      border-color: #66a3ff; /* Lighter blue for dark mode */
+      border-color: #66a3ff;
     }
 
     .search-bar::placeholder {

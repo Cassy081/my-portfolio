@@ -1,40 +1,67 @@
 <script>
   import * as d3 from 'd3';
 
-  // Colors for each slice
   let colors = d3.scaleOrdinal(d3.schemeTableau10);
-
   export let data = [];
+  export let selectedIndex = -1;  // Initialize selectedIndex to -1, meaning no wedge is selected
 
-  // Create the arc generator
+  function toggleWedge(index, event) {
+    // Allow selection on Enter key or any mouse event
+    if (!event.key || event.key === 'Enter') {
+      selectedIndex = index;
+    }
+  }
+
   const arcGenerator = d3.arc()
-    .innerRadius(0)      // Inner radius of 0 for a pie chart (change to positive number for a donut chart)
-    .outerRadius(50);    // Outer radius for the pie chart
+    .innerRadius(0)
+    .outerRadius(50);
 
-  // Create a slice generator to automatically calculate start and end angles
   let sliceGenerator = d3.pie().value((d) => d.value);
-
-  // Reactive variables for arcs and arcData
   let arcData = [];
   let arcs = [];
 
-  // Make arcData and arcs reactive when data changes
   $: {
-    arcData = sliceGenerator(data); // Generate slice data
-    arcs = arcData.map((d) => arcGenerator(d)); // Generate the arcs based on slice data
+    arcData = sliceGenerator(data);
+    arcs = arcData.map((d) => arcGenerator(d));
+  }
+
+  let hoveredIndex = null;
+
+  function handleMouseEnter(index) {
+    hoveredIndex = index;
+  }
+
+  function handleMouseLeave() {
+    hoveredIndex = null;
   }
 </script>
 
 <div class="container">
-  <svg viewBox="-50 -50 100 100">
+  <svg viewBox="-50 -50 100 100" aria-label="Project Year Distribution Pie Chart">
     {#each arcs as arc, i}
-      <path d="{arc}" fill="{colors(i)}" />
+      <path
+        d="{arc}"
+        fill="{colors(i)}"
+        class:dimmed="{hoveredIndex !== null && hoveredIndex !== i}"
+        class:hovered="{hoveredIndex === i}"
+        class:selected="{selectedIndex === i}"
+        on:mouseenter={() => handleMouseEnter(i)}
+        on:mouseleave={handleMouseLeave}
+        on:click={(e) => toggleWedge(i, e)}
+        on:keyup={(e) => toggleWedge(i, e)}
+        tabindex="0"
+        role="button"
+        aria-label="Year {data[i].label} with {data[i].value} projects"
+      />
     {/each}
   </svg>
 
   <ul class="legend">
     {#each data as d, index}
-      <li style="--color: { colors(index) }">
+      <li 
+        style="--color: {colors(index)}"
+        class:selected="{selectedIndex === index}"
+      >
         <span class="swatch"></span>
         {d.label} <em>({d.value})</em>
       </li>
@@ -47,6 +74,31 @@
     max-width: 20em;
     margin-block: 2em;
     overflow: visible;
+  }
+
+  path {
+    transition: 300ms;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* Apply opacity to all non-hovered wedges */
+  .dimmed {
+    opacity: 0.5;
+  }
+
+  /* Ensure hovered wedge stands out */
+  .hovered {
+    opacity: 1;
+  }
+
+  /* Styling for selected wedge and legend item */
+  .selected {
+    --color: oklch(60% 45% 0) !important; /* Distinct color for selected items */
+
+    &:is(path) {
+      fill: var(--color);
+    }
   }
 
   .legend {
@@ -88,7 +140,6 @@
     gap: 1em;
   }
 
-  /* Dark theme styles */
   @media (prefers-color-scheme: dark) {
     .legend {
       color: white;
