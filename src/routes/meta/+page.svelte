@@ -29,10 +29,21 @@
   // Tooltip variables
   let hoveredIndex = -1;
   let hoveredCommit = {}; // Initialize to an empty object
+  let cursor = { x: 0, y: 0 }; // Position object for tooltip
+
   $: hoveredCommit = commits[hoveredIndex] ?? {};
+  let svg;
+  let brushSelection = null;
 
   // SVG element references
   let xAxis, yAxis, yAxisGridlines;
+
+  // Define scales as module-level variables to make them accessible in other functions
+  let xScale, yScale;
+
+  // Variables for the selected commits and their count
+  let selectedCommits = [];
+  let hasSelection = false;
 
   onMount(async () => {
     // Load CSV data
@@ -51,9 +62,9 @@
       id: commit,
       datetime: new Date(lines[0].datetime),
       hourFrac: lines[0].hourFrac,
-      author: lines[0].author, // Ensure 'author' is available in your data
+      author: lines[0].author,
       linesEdited: lines.length,
-      url: lines[0].url || '#', // Ensure 'url' exists for linking
+      url: lines[0].url || '#',
     }));
     totalCommits = commits.length;
     maxDepth = d3.max(data, d => d.depth);
@@ -69,12 +80,12 @@
 
   function drawScatterPlot() {
     // Define the scales
-    const xScale = d3.scaleTime()
+    xScale = d3.scaleTime()
       .domain(d3.extent(commits, d => d.datetime))
       .nice()
       .range([usableArea.left, usableArea.right]);
 
-    const yScale = d3.scaleLinear()
+    yScale = d3.scaleLinear()
       .domain([0, 24])
       .range([usableArea.bottom, usableArea.top]);
 
@@ -84,8 +95,8 @@
 
     // Set up grid lines
     yAxisGridlines = d3.axisLeft(yScale)
-      .tickFormat('') // Remove labels
-      .tickSize(-usableArea.width); // Make tick lines extend across chart
+      .tickFormat('')
+      .tickSize(-usableArea.width);
 
     // Select the SVG and bind data
     const svg = d3.select("#scatterplot");
@@ -94,12 +105,17 @@
       .data(commits)
       .enter()
       .append("circle")
+      .attr("class", "dots")  // Add class for easy selection
       .attr("cx", d => xScale(d.datetime))
       .attr("cy", d => yScale(d.hourFrac))
       .attr("r", 5)
       .attr("fill", "steelblue")
       .on("mouseenter", (event, d) => {
         hoveredIndex = commits.indexOf(d);
+        cursor = { x: event.x, y: event.y }; // Set initial position on enter
+      })
+      .on("mousemove", (event) => {
+        cursor = { x: event.x, y: event.y }; // Update position on move
       })
       .on("mouseleave", () => {
         hoveredIndex = -1;
@@ -110,6 +126,60 @@
     d3.select("#y-axis").call(yAxis);
     d3.select("#y-axis-gridlines").call(yAxisGridlines);
   }
+
+  // Function to check if a commit is within the brush selection
+  function isCommitSelected(commit) {
+    if (!brushSelection) return false;  // If no selection, nothing is selected
+
+    const [x0, y0] = brushSelection[0];
+    const [x1, y1] = brushSelection[1];
+
+    const commitX = xScale(commit.datetime);
+    const commitY = yScale(commit.hourFrac);
+
+    return commitX >= x0 && commitX <= x1 && commitY >= y0 && commitY <= y1;
+  }
+
+  // Brush functionality
+  $: {
+    d3.select(svg).call(d3.brush().on('start brush end', brushed));
+    d3.select(svg).selectAll('.dots, .overlay ~ *').raise();
+  }
+
+  function brushed(evt) {
+    console.log(evt);  // Log the brush event
+    brushSelection = evt.selection; // Store the selection
+
+    // Update selected commits and apply the "selected" class based on the brush selection
+    selectedCommits = brushSelection ? commits.filter(isCommitSelected) : [];
+    hasSelection = selectedCommits.length > 0;
+
+    d3.selectAll(".dots")
+      .classed("selected", d => isCommitSelected(d));
+  }
+
+  $: selectedLines = (hasSelection ? selectedCommits : commits).flatMap((d) => d.lines || []);
+
+  $: languageBreakdown = d3.rollups(
+  selectedLines,
+  (v) => v.length, // Count the number of lines for each language
+  (d) => d.language // Make sure the `language` field is available
+);
+
+  $: {
+    console.log("selectedLines:", selectedLines); // Check the structure of selectedLines
+  }
+  $: {
+  console.log("selectedLines:", selectedLines);
+  // Check if each line has a `language` property
+  selectedLines.forEach(line => {
+    console.log(line.language);  // Ensure each line has a 'language' field
+  });
+}
+  $: {
+    console.log("languageBreakdown:", languageBreakdown); // Log language breakdown to see if it updates
+  }
+
 </script>
 
 <!-- Display the summary stats -->
@@ -136,16 +206,35 @@
 <!-- Scatterplot Section -->
 <section>
   <h2>Commits by Time of Day</h2>
-  <svg id="scatterplot" width={width} height={height}>
+  <svg id="scatterplot" bind:this={svg} width={width} height={height}>
     <g id="y-axis-gridlines" class="gridlines" transform={`translate(${usableArea.left}, 0)`}></g>
     <g id="x-axis" transform={`translate(0, ${usableArea.bottom})`}></g>
     <g id="y-axis" transform={`translate(${usableArea.left}, 0)`}></g>
-    <!-- Scatterplot circles are rendered here -->
   </svg>
+  <!-- Display the number of selected commits -->
+  <p>{hasSelection ? selectedCommits.length : "No"} commits selected</p>
+</section>
+
+<section>
+  <ul>
+    {#each languageBreakdown as [language, lines]}
+      <li>
+        {language}: 
+        {#if selectedLines.length > 0}
+          {Math.round((lines / selectedLines.length) * 100)}%
+        {:else}
+          0%
+        {/if}
+      </li>
+    {/each}
+  </ul>
 </section>
 
 <!-- Tooltip -->
-<dl id="commit-tooltip" class="info tooltip" style="display: {hoveredIndex !== -1 ? 'block' : 'none'};">
+<dl id="commit-tooltip" class="info tooltip"
+    style="display: {hoveredIndex !== -1 ? 'block' : 'none'};
+           top: {Math.min(cursor.y + 10, window.innerHeight - 50)}px;
+           left: {Math.min(cursor.x + 10, window.innerWidth - 150)}px;">
   <dt>Commit</dt>
   <dd><a href="{hoveredCommit.url}" target="_blank" rel="noopener noreferrer">{hoveredCommit.id}</a></dd>
 
@@ -168,7 +257,6 @@
     margin-bottom: 30px;
   }
 
-  /* Style for summary stats */
   dl {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -204,8 +292,6 @@
 
   .tooltip {
     position: fixed;
-    top: 1em;
-    left: 1em;
     background-color: white;
     padding: 1em;
     border: 1px solid #ccc;
@@ -214,33 +300,12 @@
 
   /* SVG styling */
   svg {
-    overflow: visible;
+    border: 1px solid #ccc;
   }
 
-  /* Circle hover effect */
-  circle {
-    transition: 200ms;
-    transform-origin: center;
-    transform-box: fill-box;
-
-    &:hover {
-      transform: scale(1.5);
-    }
-  }
-
-  /* Dark theme styling */
-  @media (prefers-color-scheme: dark) {
-    section {
-      background-color: #2f2f2f;
-      color: #ddd;
-    }
-
-    dt, dd {
-      color: #ddd;
-    }
-    .gridlines line {
-      stroke: #777;
-      stroke-opacity: 0.2;
-    }
+  /* Selected styling for dots */
+  .dots.selected {
+    fill: orange;
   }
 </style>
+
