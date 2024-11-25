@@ -54,10 +54,11 @@
         "description": "Sales data analysis for an E-commerce platform. Objective is to gain insights into customer purchasing behavior, product performance, and sales trends."
     },
     {
-        "title": "Shop Store Analysis - SQL",
+        "title": "Boston Area Bike Moving - Visualization with D3",
         "year": "2024",
-        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Utilizing products and sales data, to gain insights into sales performance, ranking products, and analyze revenue differences between sales and identify top-perfoming regions."
+        "image": "/Users/cassy/Documents/GitHub/my-portfolio/static/images/bikemoving.png",
+        "description": "Bike traffic in the Boston area during different times of the day.",
+        "url": ""
     },
     {
         "title": "Employee Management System Analysis - SQL",
